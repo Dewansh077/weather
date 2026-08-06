@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Weather</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold" href="#">🌤 Weather App</a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#weather">Weather</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        More
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#weather">
+                                Current Weather
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#cities">
+                                Common Cities
+                            </a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#about">
+                                About This App
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#guide">App Guide</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<section id="weather" class="container py-5">
+
+    <div class="text-center mb-4">
+
+        <h1 class="display-5 fw-bold">
+            Worldwide Weather
+        </h1>
+
+        <p class="text-muted">
+            Search for any city in the world
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center mb-5">
+
+        <div class="col-md-8 col-lg-6">
+
+         <div class="input-group">
+
+    <input
+        type="text"
+        id="city"
+        class="form-control"
+        placeholder="Enter city name">
+
+    <button class="btn btn-primary" onclick="getWeather()">
+        Search
+    </button>
+
+    <button class="btn btn-success" onclick="getLocationWeather()">
+        📍 My Location
+    </button>
+
+    <button class="btn btn-danger" onclick="clearWeather()">
+        ✖ Clear
+    </button>
+
+</div>
+
+        </div>
+
+    </div>
+
+
+    <div id="errorMessage"
+         class="alert alert-danger text-center d-none">
+    </div>
+
+
+    <div id="weatherContent" class="d-none">
+
+        <h2 id="weatherHeading"
+            class="text-center mb-4">
+            Weather
+        </h2>
+
+
+        <div class="row row-cols-1 row-cols-md-3 g-4 text-center mb-4">
+
+            <div class="col">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body py-4">
+
+                        <h5 class="card-title">
+                            🌡 Temperature
+                        </h5>
+
+                        <h1 id="tempCard"
+                            class="display-5 fw-bold mt-3">
+                            --
+                        </h1>
+
+                        <p class="text-muted">
+                            Current temperature
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body py-4">
+
+                        <h5 class="card-title">
+                            💧 Humidity
+                        </h5>
+
+                        <h1 id="humidityCard"
+                            class="display-5 fw-bold mt-3">
+                            --
+                        </h1>
+
+                        <p class="text-muted">
+                            Humidity level
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body py-4">
+
+                        <h5 class="card-title">
+                            💨 Wind Speed
+                        </h5>
+
+                        <h1 id="windCard"
+                            class="display-5 fw-bold mt-3">
+                            --
+                        </h1>
+
+                        <p class="text-muted">
+                            Current wind speed
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card shadow-sm mb-5">
+
+            <div class="card-body text-center">
+
+                <h3 id="weatherIcon" class="display-4">
+                    🌤
+                </h3>
+
+                <h4 id="description"
+                    class="text-capitalize">
+                    --
+                </h4>
+
+                <p id="feelsLike"
+                   class="text-muted">
+                    Feels like: --
+                </p>
+
+                <p id="pressure"
+                   class="text-muted">
+                    Pressure: --
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="cities" class="container pb-5">
+
+    <h2 class="text-center mb-4">
+        Weather Information
+    </h2>
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover text-center">
+
+            <thead class="table-dark">
+
+                <tr>
+                    <th>City</th>
+                    <th>Temperature</th>
+                    <th>Humidity</th>
+                    <th>Weather</th>
+                </tr>
+
+            </thead>
+
+           <tbody id="cityTableBody">
+
+    <tr>
+        <td>Delhi</td>
+        <td id="delhiTemp">Loading...</td>
+        <td id="delhiHumidity">Loading...</td>
+        <td id="delhiWeather">Loading...</td>
+    </tr>
+
+    <tr>
+        <td>Mumbai</td>
+        <td id="mumbaiTemp">Loading...</td>
+        <td id="mumbaiHumidity">Loading...</td>
+        <td id="mumbaiWeather">Loading...</td>
+    </tr>
+
+    <tr>
+        <td>Bengaluru</td>
+        <td id="bengaluruTemp">Loading...</td>
+        <td id="bengaluruHumidity">Loading...</td>
+        <td id="bengaluruWeather">Loading...</td>
+    </tr>
+
+    <tr>
+        <td>Kolkata</td>
+        <td id="kolkataTemp">Loading...</td>
+        <td id="kolkataHumidity">Loading...</td>
+        <td id="kolkataWeather">Loading...</td>
+    </tr>
+
+    <tr>
+        <td>Chennai</td>
+        <td id="chennaiTemp">Loading...</td>
+        <td id="chennaiHumidity">Loading...</td>
+        <td id="chennaiWeather">Loading...</td>
+    </tr>
+
+    <tr>
+        <td>Jaipur</td>
+        <td id="jaipurTemp">Loading...</td>
+        <td id="jaipurHumidity">Loading...</td>
+        <td id="jaipurWeather">Loading...</td>
+    </tr>
+
+</tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<section id="about" class="container py-5">
+
+    <div class="text-center">
+
+        <h2>About This App</h2>
+
+        <p class="text-muted">
+            This weather application uses OpenWeatherMap to
+            display current weather information for cities around
+            the world.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section id="guide" class="container pb-5">
+
+    <div class="text-center">
+
+        <h2>App Guide</h2>
+
+        <p class="text-muted">
+            Enter a city name in the search box and click Search
+            to view its current weather information.
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer class="bg-dark text-white text-center py-3">
+
+    <p class="mb-0">
+        Weather App © 2026
+    </p>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
